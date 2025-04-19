@@ -22,8 +22,6 @@ const { AuthData } = useContext(AuthContext);
 const { getexpence, dispatch,ExpenceData} = useContext
 (ExpenceContext);
 const [TotalAmount, setTotalAmount] = useState({total:"",income:"",expence:""});
-console.log(TotalAmount);
-
 let userid = AuthData.userId;
 const data = {
     labels: ['Total', 'Income', 'Expence'],
