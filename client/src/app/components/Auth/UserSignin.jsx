@@ -11,8 +11,6 @@ export const Signin = ({ setMode }) => {
   useEffect(() => {
     if (AuthData?.token) {
       router.push("/pages/Home");
-    } else if (AuthData?.token === null || AuthData?.token === undefined) {
-      alert("Invalid Email or Password");
     }
   }, [AuthData]);
 
@@ -20,13 +18,17 @@ export const Signin = ({ setMode }) => {
     try {
       if (formData?.email && formData?.password) {
         const data = await Usersignin(formData);
-        dispatch({
-          type: "SIGN_IN",
-          payload: data
-        });
-      } else {
-        alert("Please fill out all fields.");
+        if(data){
+          dispatch({
+            type: "SIGN_IN",
+            payload: data
+          });
+        } else if(data == undefined){
+        alert("Invalid Email or Password");
       }
+    }else {
+      alert("Please fill out all fields.");
+    }
     } catch (error) {
       console.error(error);
     }
