@@ -29,6 +29,8 @@ async function addexpence(id,body) {
 
 async function deleteExpence(id) {
     try {
+        console.log("de");
+        
         const responce = await API.delete(`/expence/deleteexpence/${id}`)
         return responce
     } catch (error) {
