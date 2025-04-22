@@ -6,11 +6,15 @@ import { AuthContext } from '@/app/context/AuthContext';
 const Navbar = () => {
   const router = useRouter();
   const { AuthData, dispatch } = useContext(AuthContext);
-
+  const [ProfilePic,SetProfilePic] = useState()
   const handleLogout = () => {
     dispatch({ type: 'SIGN_OUT' });
     router.push('/');
   };
+
+  useEffect(()=>{
+    SetProfilePic(AuthData.ProfilePicture)
+  },[])
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm px-4 py-2">
@@ -26,7 +30,7 @@ const Navbar = () => {
 
           {/* Profile Image */}
           <img
-            src={AuthData?.profilepic || 'https://via.placeholder.com/40'}
+            src={ProfilePic || 'https://via.placeholder.com/40'}
             alt="Profile"
             className="rounded-circle"
             width="40"

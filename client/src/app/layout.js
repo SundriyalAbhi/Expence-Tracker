@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthProvider } from "./context/AuthContext";
 import { ExpenceProvider } from "./context/expenceContext";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <ExpenceProvider>
       <AuthProvider>
+      <ToastContainer/>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>

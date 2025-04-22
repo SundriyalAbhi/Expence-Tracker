@@ -1,6 +1,7 @@
 import { AuthContext } from '@/app/context/AuthContext'; 
 import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react';
+import { Bounce, toast } from 'react-toastify';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const Signin = ({ setMode }) => {
@@ -17,18 +18,66 @@ export const Signin = ({ setMode }) => {
   async function handleSubmit() {
     try {
       if (formData?.email && formData?.password) {
-        const data = await Usersignin(formData);
-        if(data){
-          dispatch({
-            type: "SIGN_IN",
-            payload: data
+        const logindata = await Usersignin(formData);
+        console.log(logindata);
+        
+        if (logindata.status === 404) {
+          toast.error('User does not exist', {
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+            transition: Bounce,
           });
-        } else if(data == undefined){
-        alert("Invalid Email or Password");
+        } else if (logindata.status === 401) {
+          toast.error('Wrong password', {
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+            transition: Bounce,
+          });
+        }
+
+        if (logindata?.status === 200) {
+          toast.info("login successful",{
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+            transition: Bounce,
+          })
+          dispatch({
+            type: 'SIGN_IN',
+            payload: logindata.data,
+          });
+          router.push('/');
+        }
+      } else {
+        toast.error('Please fill out the form', {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce,
+        });
       }
-    }else {
-      alert("Please fill out all fields.");
-    }
     } catch (error) {
       console.error(error);
     }

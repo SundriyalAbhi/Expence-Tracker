@@ -23,9 +23,10 @@ if(typeof window !=="undefined")
 async function Usersignin(body) {
     try {
         const response=await API.post(`/auth/usersignin`,body)
-        return response?.data
+        return { status: response?.status, data: response?.data}
     } catch (error) {
         console.log(error);
+        return { status: error?.status}
         
     }
 }
